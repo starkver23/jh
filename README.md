@@ -1,3 +1,25 @@
+# JH – Modified JHipster Generator
+
+This repository is a fork of the official JHipster generator.
+
+It has been modified as part of an MSc dissertation at the University of Birmingham.
+
+## Modifications
+
+- Added inheritance-aware JDL parsing.
+- Added inheritance support in entity generation.
+- Generated Java entities using JPA JOINED inheritance.
+- Preserved compatibility with existing JHipster generation.
+
+Original project:
+https://github.com/jhipster/generator-jhipster
+
+Original License:
+Apache License 2.0
+
+
+
+
 [![Logo][jhipster-image]][jhipster-url]
 
 [![NPM version][npm-image]][npm-url] [![Downloads][npmcharts-image]][npmcharts-url] [![Gitter][gitter-badge-image]][gitter-badge-url] [![Known Vulnerabilities][snyk-image]][snyk-url] [![Package Health][health-image]][health-url]
