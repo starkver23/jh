@@ -40,16 +40,21 @@ export function convertEntities(
     throw new Error('Entities have to be passed so as to be converted.');
   }
   return parsedEntities.map(parsedEntity => {
+    const annotations = Object.fromEntries(
+      parsedEntity.annotations?.map(annotation => [
+        lowerFirst(annotation.optionName),
+        annotation.type === 'UNARY' ? true : annotation.optionValue,
+      ]) ?? [],
+    );
+    if (parsedEntity.superClass) {
+      annotations.extends = parsedEntity.superClass;
+    }
+
     const jdlEntity = new JDLEntity({
       name: parsedEntity.name,
       tableName: parsedEntity.tableName,
       comment: formatComment(parsedEntity.documentation),
-      annotations: Object.fromEntries(
-        parsedEntity.annotations?.map(annotation => [
-          lowerFirst(annotation.optionName),
-          annotation.type === 'UNARY' ? true : annotation.optionValue,
-        ]) ?? [],
-      ),
+      annotations,
     });
     const jdlFields = jdlFieldGetterFunction(parsedEntity);
     jdlEntity.addFields(jdlFields);

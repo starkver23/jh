@@ -98,11 +98,12 @@ export const buildTokens = (tokens: { applicationTokens: TokenParam; deploymentT
 
   createTokenFromConfig({ name: 'DEPLOYMENT', pattern: 'deployment' });
 
-  // boolean value constants
+  // Boolean value constants
   createTokenFromConfig({ name: 'TRUE', pattern: 'true', categories: [BOOLEAN] });
   createTokenFromConfig({ name: 'FALSE', pattern: 'false', categories: [BOOLEAN] });
   // Entity constants
   createTokenFromConfig({ name: 'ENTITY', pattern: 'entity' });
+  createTokenFromConfig({ name: 'EXTENDS', pattern: 'extends' });
   createTokenFromConfig({ name: 'ENUM', pattern: 'enum' });
   // Relationship-related
   createTokenFromConfig({ name: 'RELATIONSHIP', pattern: 'relationship' });

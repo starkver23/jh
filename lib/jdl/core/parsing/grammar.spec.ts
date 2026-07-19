@@ -417,6 +417,7 @@ entity C
   "body": [],
   "documentation": null,
   "name": "A",
+  "superClass": undefined,
   "tableName": undefined,
 }
 `);
@@ -437,6 +438,49 @@ entity C
   "body": [],
   "documentation": null,
   "name": "A",
+  "superClass": undefined,
+  "tableName": "a_table",
+}
+`);
+      });
+    });
+    describe('with a name and extending another entity', () => {
+      let parsedEntity: ParsedJDLApplications['entities'][number];
+
+      before(() => {
+        const content = parseFromContent('entity A extends B');
+        parsedEntity = content.entities[0];
+      });
+
+      it('should parse it and capture superClass', () => {
+        expect(parsedEntity).toMatchInlineSnapshot(`
+{
+  "annotations": [],
+  "body": [],
+  "documentation": null,
+  "name": "A",
+  "superClass": "B",
+  "tableName": undefined,
+}
+`);
+      });
+    });
+    describe('with a name, extending another entity, and a table name', () => {
+      let parsedEntity: ParsedJDLApplications['entities'][number];
+
+      before(() => {
+        const content = parseFromContent('entity A extends B(a_table)');
+        parsedEntity = content.entities[0];
+      });
+
+      it('should parse it, capture superClass and tableName', () => {
+        expect(parsedEntity).toMatchInlineSnapshot(`
+{
+  "annotations": [],
+  "body": [],
+  "documentation": null,
+  "name": "A",
+  "superClass": "B",
   "tableName": "a_table",
 }
 `);
@@ -516,6 +560,7 @@ entity A`);
   "body": [],
   "documentation": null,
   "name": "A",
+  "superClass": undefined,
   "tableName": undefined,
 }
 `);
@@ -537,6 +582,7 @@ entity A`);
   "body": [],
   "documentation": "A comment",
   "name": "A",
+  "superClass": undefined,
   "tableName": undefined,
 }
 `);
@@ -564,6 +610,7 @@ entity A`);
  * comment.
 ",
   "name": "A",
+  "superClass": undefined,
   "tableName": undefined,
 }
 `);
@@ -596,6 +643,7 @@ entity A`);
   "body": [],
   "documentation": "A comment",
   "name": "A",
+  "superClass": undefined,
   "tableName": undefined,
 }
 `);
@@ -651,6 +699,7 @@ entity A`);
   ],
   "documentation": null,
   "name": "A",
+  "superClass": undefined,
   "tableName": undefined,
 }
 `);

@@ -151,4 +151,36 @@ describe(`generator - ${generator}`, () => {
       expect(generator.useJakartaValidation).toBe(false);
     });
   });
+
+  describe('with entity inheritance', () => {
+    before(async () => {
+      await helpers.runJHipster(generator).withJHipsterConfig({}, [
+        {
+          name: 'Person',
+          annotations: { superclass: true },
+          fields: [
+            { fieldName: 'id', fieldType: 'Long', id: true } as any,
+            { fieldName: 'name', fieldType: 'String' },
+          ],
+        },
+        {
+          name: 'Student',
+          annotations: { extends: 'Person' },
+          fields: [
+            { fieldName: 'id', fieldType: 'Long', id: true } as any,
+            { fieldName: 'studentId', fieldType: 'String' },
+          ],
+        },
+      ]);
+    });
+
+    it('should generate Person with superclass extends logic but no direct subclass references if not relational', () => {
+      result.assertFileContent('src/main/java/com/mycompany/myapp/domain/Person.java', 'public class Person implements Serializable');
+    });
+
+    it('should generate Student extending Person and skipping id field', () => {
+      result.assertFileContent('src/main/java/com/mycompany/myapp/domain/Student.java', 'public class Student extends Person implements Serializable');
+      result.assertNoFileContent('src/main/java/com/mycompany/myapp/domain/Student.java', 'private Long id;');
+    });
+  });
 });

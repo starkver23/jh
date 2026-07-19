@@ -133,6 +133,11 @@ export default class JDLParser extends CstParser {
       this.CONSUME(this.tokens.ENTITY);
       this.CONSUME(this.tokens.NAME);
 
+      this.OPTION3(() => {
+        this.CONSUME(this.tokens.EXTENDS);
+        this.CONSUME2(this.tokens.NAME, { LABEL: 'superClass' });
+      });
+
       this.OPTION1(() => {
         this.SUBRULE(this.entityTableNameDeclaration);
       });

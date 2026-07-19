@@ -110,6 +110,14 @@ export default class SqlGenerator extends BaseApplicationGenerator<
         } else {
           entity.entityJpqlInstance = entity.entityInstance;
         }
+
+        const entityNames = this.getExistingEntityNames();
+        const isInheritanceRoot = entityNames.some(name => {
+          const entityStorage = this.getEntityConfig(name, true);
+          const config = entityStorage ? (entityStorage.getAll() as any) : null;
+          return config && config.annotations && config.annotations.extends === entity.entityClass;
+        });
+        entityAny.isInheritanceRoot = isInheritanceRoot;
       },
     });
   }

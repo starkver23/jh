@@ -16,6 +16,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
+<%_
+if (typeof annotations !== 'undefined' && annotations && annotations.extends) {
+  for (const field of fields) {
+    if (field.id) {
+      field.javaInherited = true;
+    }
+  }
+}
+_%>
 <&_
  // Register sections and max allowed fragments, 0 for unlimited.
   fragments.registerSections({
@@ -109,7 +118,7 @@ import <%- otherEntity.entityAbsoluteClass %>;
 <%_ } _%>
 <&- fragments.annotationSection() -&>
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class <%- persistClass %> <&- fragments.extendsSection() -&>implements Serializable<&- fragments.additionalInterfacesSection() -&> {
+public class <%- persistClass %> <%- (typeof annotations !== 'undefined' && annotations && annotations.extends) ? 'extends ' + annotations.extends + ' ' : '' %><&- fragments.extendsSection() -&>implements Serializable<&- fragments.additionalInterfacesSection() -&> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -188,7 +197,7 @@ public class <%- persistClass %> <&- fragments.extendsSection() -&>implements Se
 <%_ } _%>
 <&- fragments.classAdditionalRelationshipsSection() -&>
     // jhipster-needle-entity-add-field - JHipster will add fields here
-<%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
+<%_ for (const field of fields.filter(field => !field.javaInherited && !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
 <&- fragments.field<%- field.fieldNameCapitalized %>CustomMethodsSection() -&>
 <&_ if (!fragments.field<%- field.fieldNameCapitalized %>CustomMethodsSection()) { -&>
 

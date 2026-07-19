@@ -156,7 +156,7 @@ export const buildJDLAstBuilderVisitor = (runtime: JDLRuntime) => {
     }
 
     entityDeclaration(
-      context: Record<'ENTITY' | 'NAME' | 'JAVADOC', IToken[]> &
+      context: Record<'ENTITY' | 'NAME' | 'JAVADOC' | 'superClass', IToken[]> &
         Record<'annotationDeclaration' | 'entityTableNameDeclaration' | 'entityBody', CstNode[]>,
     ) {
       const annotations: ParsedJDLAnnotation[] = [];
@@ -172,6 +172,11 @@ export const buildJDLAstBuilderVisitor = (runtime: JDLRuntime) => {
       }
 
       const name = context.NAME[0].image;
+
+      let superClass: string | undefined;
+      if (context.superClass) {
+        superClass = context.superClass[0].image;
+      }
 
       let tableName: string | undefined;
       if (context.entityTableNameDeclaration) {
@@ -189,6 +194,7 @@ export const buildJDLAstBuilderVisitor = (runtime: JDLRuntime) => {
         tableName,
         body,
         documentation,
+        superClass,
       };
     }
 

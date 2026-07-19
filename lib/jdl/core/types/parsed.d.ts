@@ -45,6 +45,7 @@ export type ParsedJDLEntity = {
   documentation?: string;
   annotations?: ParsedJDLAnnotation[];
   body?: ParsedJDLEntityField[];
+  superClass?: string;
 };
 export type ParsedJDLApplicationConfig = {
   baseName: string;
